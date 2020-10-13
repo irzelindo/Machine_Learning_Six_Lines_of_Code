@@ -14,7 +14,7 @@
 """
 import random
 
-class testKNN:
+class testKNN():
     def fit(self, X_train, y_train):
         """
             Description: 
