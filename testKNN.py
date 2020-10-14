@@ -13,8 +13,24 @@
                 >>> X_test - Test features to predict the labels: <ND list>
 """
 import random
+from scipy.spatial import distance
+
 
 class testKNN():
+
+    def euclidean_distance(self, a, b):
+        """
+            Description:
+                Computes the Euclidean distance between two 1-D arrays.
+            Parameters: 
+                Array like, input array
+                point a, point b
+            Returns: 
+                The euclidean distance between points a and b: double
+        """
+        return distance.euclidean(a,b)
+
+
     def fit(self, X_train, y_train):
         """
             Description: 
@@ -34,6 +50,7 @@ class testKNN():
 
             Return: None
         """
+        # Initializing the training data and labels
         self.X_train = X_train
         self.y_train = y_train
 
@@ -53,10 +70,39 @@ class testKNN():
         predictions = list()
 
         for row in X_test:
-            label = random.choice(self.y_train)
+            # Predict the closest point label for the testing point
+            label = self.closest_point(row) 
+            # Append the label into the predictions list
             predictions.append(label)
 
         return predictions
+
+    def closest_point(self, row):
+        """
+            Description:
+                Iterates through the training points X_train[i] and
+                retrieves the closest point label to the testing point 
+                X_test[i](row[i])
+            Parameters:
+                X_test[i](row[i]): The testing point
+
+            Returns: 
+                The clossest point training label y_train[i] 
+        """
+        # Defining the shortest distance to be the first row in training data
+        shortest_distance = self.euclidean_distance(row, self.X_train[0])
+        # The index representing the label.
+        shorted_index = 0
+        # Iterating through the training data to find the 
+        # shortest_distance/point to the testing point and update the
+        # distance and index to the testing point.
+        for i in range(1, len(self.X_train)):
+            distance = self.euclidean_distance(row, self.X_train[i])
+            if distance < shortest_distance:
+                shortest_distance = distance
+                shorted_index = i
+
+        return self.y_train[shorted_index]
 
 
 
