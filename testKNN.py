@@ -12,7 +12,7 @@
             >>> Parameters:
                 >>> X_test - Test features to predict the labels: <ND list>
 """
-import random
+# import random
 from scipy.spatial import distance
 
 
